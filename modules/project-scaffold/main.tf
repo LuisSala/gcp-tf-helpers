@@ -30,7 +30,7 @@ resource "random_pet" "pet_name" {
 }
 
 module "folder" {
-  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/folder?ref=v29.0.0"
+  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/folder?ref=v32.0.0"
   parent = var.org_id
   name   = "${var.folder_name} ${random_pet.pet_name.id}"
 
@@ -39,7 +39,7 @@ module "folder" {
 
 
 module "project" {
-  source              = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/project?ref=v29.0.0"
+  source              = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/project?ref=v32.0.0"
   billing_account     = var.billing_account_id
   name                = random_pet.pet_name.id
   parent              = module.folder.id
@@ -60,7 +60,7 @@ resource "google_compute_project_default_network_tier" "project-tier" {
 
 module "vpc" {
   count  = var.auto_create_network ? 0 : 1
-  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/net-vpc?ref=v29.0.0"
+  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/net-vpc?ref=v32.0.0"
 
   project_id = module.project.project_id
   name       = "default"

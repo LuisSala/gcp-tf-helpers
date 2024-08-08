@@ -74,10 +74,10 @@ variable "project_services" {
 
 variable "org_policies" {
   description = "Organization policies applied to this folder keyed by policy name."
-  type        = map(object({
+  type = map(object({
     inherit_from_parent = optional(bool) # for list policies only.
     reset               = optional(bool)
-    rules               = optional(list(object({
+    rules = optional(list(object({
       allow = optional(object({
         all    = optional(bool)
         values = optional(list(string))
@@ -86,7 +86,7 @@ variable "org_policies" {
         all    = optional(bool)
         values = optional(list(string))
       }))
-      enforce   = optional(bool) # for boolean policies only.
+      enforce = optional(bool) # for boolean policies only.
       condition = optional(object({
         description = optional(string)
         expression  = optional(string)
