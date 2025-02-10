@@ -103,7 +103,7 @@ variable "org_policies" {
 variable "oauth_scopes" {
   description = "OAuth scopes to enable within the project"
   type        = list(string)
-  default     = [
+  default = [
     "https://www.googleapis.com/auth/logging.write",
     "https://www.googleapis.com/auth/monitoring",
   ]

@@ -13,7 +13,7 @@ module "project" {
   region       = "us-central1"
   project_name = "VM Test"
 
-  auto_create_network = false
+  auto_create_network = true
 
   project_services = [
     #    "iamcredentials.googleapis.com",
@@ -49,7 +49,10 @@ module "project" {
     },
     "storage.uniformBucketLevelAccess" = {
       rules = [{ enforce = false }]
-    }
+    },
+    "compute.skipDefaultNetworkCreation" = {
+      rules = [{ enforce = false }]
+    },
   }
 
   oauth_scopes = [
@@ -64,9 +67,10 @@ module "project" {
 }
 
 resource "google_compute_firewall" "default" {
-  name = "fw-allow-web"
+  count = module.project.auto_create_network ? 1 : 0
+  name  = "fw-allow-web"
   #network = module.project.vpc.name
-  network = "default"
+  network = module.project.vpc.id
   project = module.project.project_id
 
   allow {
@@ -75,10 +79,10 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports = ["22", "80", "8080"]
+    ports    = ["22", "80", "8080"]
   }
 
   source_ranges = ["0.0.0.0/0"]
-  target_tags = ["web"]
-  depends_on = [module.project]
+  target_tags   = ["web"]
+  depends_on    = [module.project]
 }

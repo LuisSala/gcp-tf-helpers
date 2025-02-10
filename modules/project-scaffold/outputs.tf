@@ -50,5 +50,5 @@ output "region" {
 
 output "vpc" {
   description = "VPC details"
-  value       = module.vpc
+  value       = data.google_compute_network.default
 }

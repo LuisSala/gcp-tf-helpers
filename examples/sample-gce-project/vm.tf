@@ -11,7 +11,7 @@ resource "google_compute_instance" "cos-instance" {
 
   # A firewall rule that allows access to port 80 targeting VM instances with a tag of "web" is required to access
   # the nginx container that will be running in this GCE VM instance.
-  tags = ["web"]
+  tags                      = ["web"]
   allow_stopping_for_update = true
   # Declare a boot disk that will use Container-optimized OS (COS)
   boot_disk {
@@ -49,9 +49,7 @@ EOT
 
   # Configure the network interface to use your preferred network and subnetwork
   network_interface {
-    subnetwork         = module.project.vpc.0.self_link
-    subnetwork_project = module.project.project_id
-
+    network = module.project.vpc.id
     access_config {
       // Leave blank to use ephemeral public IP
     }
