@@ -67,8 +67,8 @@ module "project" {
 }
 
 resource "google_compute_firewall" "default" {
-  count = module.project.auto_create_network ? 1 : 0
-  name  = "fw-allow-web"
+  #count = module.project.auto_create_network ? 1 : 0
+  name = "fw-allow-web"
   #network = module.project.vpc.name
   network = module.project.vpc.id
   project = module.project.project_id

@@ -30,7 +30,7 @@ resource "random_pet" "pet_name" {
 }
 
 module "folder" {
-  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/folder?ref=v37.1.0"
+  source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/folder?ref=v45.0.0"
   parent = var.org_id
   name   = "${var.folder_name} ${random_pet.pet_name.id}"
 
@@ -39,7 +39,7 @@ module "folder" {
 
 
 module "project" {
-  source              = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/project?ref=v37.1.0"
+  source              = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/project?ref=v45.0.0"
   billing_account     = var.billing_account_id
   name                = random_pet.pet_name.id
   parent              = module.folder.id
@@ -63,22 +63,3 @@ data "google_compute_network" "default" {
   name       = "default"
   depends_on = [module.project]
 }
-
-# module "vpc" {
-#   count  = var.auto_create_network ? 0 : 1
-#   source = "github.com/GoogleCloudPlatform/cloud-foundation-fabric//modules/net-vpc?ref=v37.1.0"
-
-#   project_id = module.project.project_id
-#   name       = "default"
-#   subnets = [
-#     {
-#       ip_cidr_range = "10.0.0.0/20"
-#       name          = "default"
-#       region        = var.region
-#       secondary_ip_ranges = {
-#         pods     = "172.16.0.0/20"
-#         services = "192.168.0.0/24"
-#       }
-#     },
-#   ]
-# }
